@@ -4,6 +4,7 @@ using Dtos;
 using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace _4WBS.Controllers
 {
@@ -11,7 +12,13 @@ namespace _4WBS.Controllers
     [ApiController]
     public class LibrariesController : ControllerBase
     {
-        private readonly LibraryService _libraryService = new LibraryService();
+        private readonly ILibraryService _libraryService;
+
+        public LibrariesController(ILibraryService libraryService)
+        {
+            _libraryService = libraryService;
+        }
+        
         // GET: api/<LibrariesController>
         [HttpGet]
         public ActionResult<IEnumerable<LibraryDto>> Get()
@@ -33,8 +40,10 @@ namespace _4WBS.Controllers
 
         // POST api/<LibrariesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] LibraryDto libraryDto)
         {
+            var libraryCreated = _libraryService.AddLibrary(libraryDto.ToEntity());
+            return Created(string.Empty, libraryCreated);
         }
 
         // PUT api/<LibrariesController>/5

@@ -9,7 +9,11 @@ public static class LibraryMapper
     {
         return new LibraryDto() { Name = library.Name };
     }
-    
+
+    public static Library ToEntity(this LibraryDto library)
+    {
+        return new Library() { Name = library.Name };
+    }
     public static IEnumerable<LibraryDto> ToDto(this IEnumerable<Library> libraries)
     {
         return libraries.Select(ToDto);
