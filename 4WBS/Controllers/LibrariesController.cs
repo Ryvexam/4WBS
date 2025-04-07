@@ -17,10 +17,7 @@ namespace _4WBS.Controllers
         public ActionResult<IEnumerable<LibraryDto>> Get()
         {
             var libraries = _libraryService.GetAll();
-            if (libraries.Any())
-            {
-                return NotFound();
-            }
+            if (!libraries.Any())
             {
                 return NoContent();
             }
